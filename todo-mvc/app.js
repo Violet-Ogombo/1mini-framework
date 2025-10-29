@@ -24,36 +24,178 @@ const store = createState(initialState);
 
 // --- Components ---
 
-const Header = () => {
+// Info Footer Component
+const InfoFooter = () => {
+  return createElement('footer', {
+    attrs: { class: 'info' },
+    children: [
+      createElement('p', { children: ['Double-click to edit a todo'] }),
+      createElement('p', { children: ['Created by the TodoMVC Team'] }),
+      createElement('p', {
+        children: [
+          'Part of ',
+          createElement('a', {
+            attrs: { href: 'http://todomvc.com' },
+            children: ['TodoMVC'],
+          }),
+        ],
+      }),
+    ],
+  });
+};
+
+// Vue.js Info Aside Component
+const VueInfoAside = () => {
   return createElement('aside', {
     attrs: { class: 'learn' },
     children: [
       createElement('header', {
-        attrs: { class: 'header' },
         children: [
-          createElement('h1', { children: ['todos'] }),
-          createElement('input', {
-            attrs: {
-              class: 'new-todo',
-              placeholder: 'What needs to be done?',
-              autofocus: true,
-              onkeyup: (event) => {
-                if (event.key === 'Enter' && event.target.value.trim() !== '') {
-                  const newTodo = {
-                    id: Date.now(),
-                    title: event.target.value.trim(),
-                    completed: false,
-                  };
-                  const state = store.getState();
-                  store.setState({ todos: [...state.todos, newTodo] });
-                  event.target.value = '';
-                }
-              },
-            },
+          createElement('h3', { children: ['Vue.js'] }),
+          createElement('span', {
+            attrs: { class: 'source-links' },
+            children: [
+              createElement('h5', { children: ['Example'] }),
+              createElement('a', {
+                attrs: {
+                  href: 'https://github.com/tastejs/todomvc/tree/gh-pages/examples/vue',
+                },
+                children: ['Source'],
+              }),
+            ],
           }),
         ],
-      })
-    ]
+      }),
+      createElement('hr'),
+      createElement('blockquote', {
+        attrs: { class: 'quote speech-bubble' },
+        children: [
+          createElement('p', {
+            children: [
+              'Vue.js provides efficient MVVM data bindings with a simple and flexible API. It uses plain JavaScript object models, DOM-based templating and extendable directives and filters.'
+            ],
+          }),
+          createElement('footer', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'http://vuejs.org' },
+                children: ['Vue.js'],
+              }),
+            ],
+          }),
+        ],
+      }),
+      createElement('hr'),
+      createElement('h4', { children: ['Official Resources'] }),
+      createElement('ul', {
+        children: [
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'http://vuejs.org/guide/' },
+                children: ['Documentation'],
+              }),
+            ],
+          }),
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'http://vuejs.org/api/' },
+                children: ['API Reference'],
+              }),
+            ],
+          }),
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'http://vuejs.org/examples/' },
+                children: ['Examples'],
+              }),
+            ],
+          }),
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'https://github.com/vuejs/vue' },
+                children: ['Vue.js on GitHub'],
+              }),
+            ],
+          }),
+        ],
+      }),
+      createElement('h4', { children: ['Community'] }),
+      createElement('ul', {
+        children: [
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'http://twitter.com/vuejs' },
+                children: ['Twitter'],
+              }),
+            ],
+          }),
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'https://gitter.im/yyx990803/vue' },
+                children: ['Gitter Channel'],
+              }),
+            ],
+          }),
+          createElement('li', {
+            children: [
+              createElement('a', {
+                attrs: { href: 'https://github.com/vuejs/Discussion/issues' },
+                children: ['Discussions on GitHub'],
+              }),
+            ],
+          }),
+        ],
+      }),
+      createElement('footer', {
+        children: [
+          createElement('hr'),
+          createElement('em', {
+            children: [
+              'If you have other helpful links to share, or find any of the links above no longer work, please ',
+              createElement('a', {
+                attrs: { href: 'https://github.com/tastejs/todomvc/issues' },
+                children: ['let us know'],
+              }),
+              '.',
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+};
+
+const Header = () => {
+  return createElement('header', {
+    attrs: { class: 'header' },
+    children: [
+      createElement('h1', { children: ['todos'] }),
+      createElement('input', {
+        attrs: {
+          class: 'new-todo',
+          placeholder: 'What needs to be done?',
+          autofocus: true,
+          onkeyup: (event) => {
+            if (event.key === 'Enter' && event.target.value.trim() !== '') {
+              const newTodo = {
+                id: Date.now(),
+                title: event.target.value.trim(),
+                completed: false,
+              };
+              const state = store.getState();
+              store.setState({ todos: [...state.todos, newTodo] });
+              event.target.value = '';
+            }
+          },
+        },
+      }),
+    ],
   });
 };
 
@@ -210,13 +352,21 @@ const App = (props) => {
     visibleTodos = allTodos.filter((todo) => todo.completed);
   }
 
+  //to add aside and footer
   return createElement('div', {
-    attrs: { class: 'todoapp' },
+    attrs: { class: 'learn-bar' },
     children: [
-      Header(),
-      Main({ todos: visibleTodos }),
-      // Pass the full list to Footer so it can show counts and the clear button
-      Footer({ todos: allTodos, filter }),
+      VueInfoAside(),
+      createElement('section', {
+        attrs: { class: 'todoapp' },
+        children: [
+          Header(),
+          Main({ todos: visibleTodos }),
+          // Pass the full list to Footer so it can show counts and the clear button
+          Footer({ todos: allTodos, filter }),
+        ],
+      }),
+      InfoFooter(),
     ],
   });
 };
