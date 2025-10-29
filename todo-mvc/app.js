@@ -25,30 +25,35 @@ const store = createState(initialState);
 // --- Components ---
 
 const Header = () => {
-  return createElement('header', {
-    attrs: { class: 'header' },
+  return createElement('aside', {
+    attrs: { class: 'learn' },
     children: [
-      createElement('h1', { children: ['todos'] }),
-      createElement('input', {
-        attrs: {
-          class: 'new-todo',
-          placeholder: 'What needs to be done?',
-          autofocus: true,
-          onkeyup: (event) => {
-            if (event.key === 'Enter' && event.target.value.trim() !== '') {
-              const newTodo = {
-                id: Date.now(),
-                title: event.target.value.trim(),
-                completed: false,
-              };
-              const state = store.getState();
-              store.setState({ todos: [...state.todos, newTodo] });
-              event.target.value = '';
-            }
-          },
-        },
-      }),
-    ],
+      createElement('header', {
+        attrs: { class: 'header' },
+        children: [
+          createElement('h1', { children: ['todos'] }),
+          createElement('input', {
+            attrs: {
+              class: 'new-todo',
+              placeholder: 'What needs to be done?',
+              autofocus: true,
+              onkeyup: (event) => {
+                if (event.key === 'Enter' && event.target.value.trim() !== '') {
+                  const newTodo = {
+                    id: Date.now(),
+                    title: event.target.value.trim(),
+                    completed: false,
+                  };
+                  const state = store.getState();
+                  store.setState({ todos: [...state.todos, newTodo] });
+                  event.target.value = '';
+                }
+              },
+            },
+          }),
+        ],
+      })
+    ]
   });
 };
 
